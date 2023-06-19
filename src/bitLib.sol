@@ -20,29 +20,38 @@ library BitLib {
         }
     }
 
-    ///@notice Compute the integer absolute value (abs) without branching
-    ///@param num the number we want to find the absolute for
-    function abs(int num) internal pure returns(int256 _abs){
-      assembly{
-        if gt(num,0){_abs := num } 
-        if lt(num,0){_abs := sub(0, )} 
-      }
-    }
+    // ///@notice Compute the integer absolute value (abs) without branching
+    // ///@param num the number we want to find the absolute for
+    // function abs(int num) internal pure returns(int256 _abs){
+    //   assembly{
+    //     if gt(num,0){_abs := num } 
+    //     if lt(num,0){_abs := sub(0, )} 
+    //   }
+    // }
   
-    function min(int256 x, int256 y) internal pure returns (int256) {
+    ///@dev Returns the min between x and y
+    ///@param x takes signed integer x as parameter
+    ///@param y takes signed integer y as parameter
+    ///@return _min the min betweeen x and y
+    function min(int256 x, int256 y) internal pure returns (int256 _min) {
         assembly{
-            y := xor(y, and(xor(x,y), sub(0,lt(x,y))))
+            _min := xor(y, and(xor(x,y), sub(0,lt(x,y))))
         }
-        return y;
     }
 
-    function max(int256 x, int2565 y) internal pure returns(int256) {
+    ///@dev Returns the max between x and y
+    ///@param x takes signed integer x as parameter
+    ///@param y takes signed integer y as parameter
+    ///@return _max the min betweeen x and y
+    function max(int256 x, int256 y) internal pure returns(int256 _max) {
         assembly{
-            x := xor(x, and(xor(x,y), sub(0,lt(x,y))))
+            _max := xor(x, and(xor(x,y), sub(0,lt(x,y))))
         }
-        return x;
     }
 
+    ///@dev Returns 1 or 0 depending on whether param v is power of two or not
+    ///@param v takes signed unsigned integer about to be checked
+    ///@return _pow returns either 1 or zero
     function isPowerOfTwo(uint256 v) public pure returns (uint256 _pow) {
         assembly {
             // Subtract 1 from v
