@@ -52,12 +52,24 @@ library BitLib {
     ///@dev Returns 1 or 0 depending on whether param v is power of two or not
     ///@param v takes signed unsigned integer about to be checked
     ///@return _pow returns either 1 or zero
-    function isPowerOfTwo(uint256 v) public pure returns (uint256 _pow) {
+    function isPowerOfTwo(uint256 v) internal pure returns (uint256 _pow) {
         assembly {
             // Subtract 1 from v
             let subResult := sub(v, 1)
             // Perform bitwise AND operation between v and subResult
             _pow := eq(and(v, subResult), 0)
         }
+    }
+
+
+    ///@dev Merge Two bits starting from the mask position
+    ///@param a takes the first number
+    ///@param b takes the second number
+    ///@param mask set the mask as the index
+    ///@return r returns the merged bit
+    function mergeBits(uint a, uint b, uint mask) internal pure returns(uint256 r){
+       assembly{
+        r :=  xor(a, and(xor(a,b), mask))
+       }
     }
 }
